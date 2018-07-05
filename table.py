@@ -26,7 +26,7 @@ class table:
                 if cha ==",":
                     x=x+1
                     if x%2:
-                        self.damage[((x-1)//2+1,(y-1)//8+1)][(y-1)%8]=float(temp)
+                        self.damage[((x-1)//2+1,(y-1)//8+1)][(y-1)%8]=float(temp)/100
                     else:
                         self.moral[((x-1)//2+1,(y-1)//8+1)][(y-1)%8]=float(temp)
                     temp = ""
@@ -35,6 +35,16 @@ class table:
             self.moral[((x-1)//2+1,(y-1)//8+1)][(y-1)%8]=float(temp)
         tabl.close()
         
-            
-    def get_table(pos):
-        return self.table[pos]
+    def get_tab(self,chit):
+        tab = dict()
+        for fighter in [0,1]:
+            for roun in range(1,4):
+                tab[(fighter, 1, roun)]=self.get_moral(chit[fighter][roun-1])
+        for fighter in [0,1]:
+            for roun in range(1,4):
+                tab[(fighter, 0, roun)]=self.get_damage(chit[fighter][roun-1])
+        return tab
+    def get_moral(self,pos):
+        return self.moral[pos]
+    def get_damage(self, pos):
+        return self.damage[pos]
